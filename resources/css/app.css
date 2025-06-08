@@ -1,0 +1,21 @@
+@import 'flowbite';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dropdown menu styles */
+#dropdownMenu {
+    z-index: 9999; /* Pastikan menu berada di atas */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#dropdownMenu.hidden {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+#dropdownMenu:not(.hidden) {
+    opacity: 1;
+    transform: scale(1);
+}
+
