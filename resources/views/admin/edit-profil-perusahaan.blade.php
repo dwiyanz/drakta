@@ -2,9 +2,9 @@
 
 @section('content')
 {{-- Kontainer utama dengan latar belakang terang, padding, sudut membulat, dan bayangan --}}
-<div class="container mx-auto px-8 py-10 bg-gradient-to-r from-blue-100 via-teal-100 to-purple-100 p-8 rounded-2xl shadow-2xl mt-8 mb-8 max-w-3xl">
+<div class="container mx-auto px-8 py-10 bg-white p-8 rounded-2xl shadow-2xl mt-8 mb-8 max-w-3xl">
     {{-- Judul halaman --}}
-    <h1 class="text-3xl font-bold mb-8 text-gray-800 text-center">Edit Profil Perusahaan</h1>
+    <h1 class="text-3xl font-bold mb-8 text-gray-800 text-center border-b border-gray-200">Edit Profil Perusahaan</h1>
 
     {{-- Menampilkan pesan sukses jika ada --}}
     @if(session('success'))

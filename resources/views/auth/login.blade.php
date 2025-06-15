@@ -6,7 +6,7 @@
 <div class="flex items-center justify-center rounded-lg p-6">
     <div class="shadow-2xl overflow-hidden w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 transform transition-all duration-500 hover:scale-[1.005] hover:shadow-3xl z-[999]">
 
-        <div class="hidden md:block bg-cover bg-center relative" style="background-image: url('/images/coverperusahaan.jpg')">
+        <div class="hidden md:block bg-cover bg-center relative z-50" style="background-image: url('/images/katalog.avif')">
             {{-- Optional: Subtle overlay for image --}}
             <div class="absolute inset-0 bg-black opacity-20 rounded-l-[2.5rem]"></div>
         </div>
@@ -45,9 +45,8 @@
                         Lupa kata sandi?
                     </a>
                     @endif
-                    {{-- Ganti javascript:void(0); dan openRegisterModal() dengan route yang benar jika ada halaman registrasi --}}
-                    {{-- Contoh: <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200">Daftar</a> --}}
-                    <a href="javascript:void(0);" onclick="openRegisterModal()" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200">
+                    
+                    <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200">
                         Daftar
                     </a>
                 </div>
@@ -63,4 +62,6 @@
     </div>
 </div>
 </div>
+
+
 @endsection

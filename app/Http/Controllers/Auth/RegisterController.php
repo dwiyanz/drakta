@@ -55,12 +55,21 @@ class RegisterController extends Controller
         return redirect()->route('login')->with('success', 'Pendaftaran berhasil! Silakan login.');
     }
 
-        public function checkUsername(Request $request)
+    public function checkUsername(Request $request)
     {
         $username = $request->query('username');
+
+        // Pastikan username tidak kosong sebelum query database
+        // Ini validasi dasar, validasi lebih kompleks sudah ada di JS (min_length)
+        if (empty($username)) {
+            return response()->json(['exists' => false]); // Username kosong, dianggap tidak terdaftar
+        }
+
+        // Cek apakah username sudah ada di database
         $exists = User::where('username', $username)->exists();
 
-        return response()->json(['available' => !$exists]);
+        // Mengembalikan 'exists' => true jika username sudah ada (terdaftar)
+        // Mengembalikan 'exists' => false jika username belum ada (belum terdaftar)
+        return response()->json(['exists' => $exists]);
     }
-
 }

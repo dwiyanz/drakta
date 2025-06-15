@@ -4,10 +4,10 @@
 
 <div class="container mx-auto px-4 py-8">
     {{-- Main container with bright background, rounded corners, and shadow --}}
-    <div class="bg-gradient-to-r from-blue-100 via-teal-100 to-purple-100 p-8 rounded-xl shadow-lg mb-8">
+    <div class="bg-gray p-8 rounded-xl shadow-lg mb-8">
 
         {{-- Report Title --}}
-        <h1 class="text-center text-3xl font-extrabold text-gray-800 mb-6">Laporan Penjualan</h1>
+        <h1 class="text-center text-3xl font-extrabold text-gray-800 mb-6 border-b border-gray-200">Laporan Penjualan</h1>
 
         {{-- Print Button Section --}}
         <div class="mb-6 text-right">
@@ -66,17 +66,17 @@
         {{-- Report Table Section --}}
         <div class="overflow-x-auto bg-white rounded-lg shadow-md">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-blue-200">
+                <thead class="bg-green-200">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID Transaksi</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID Produk</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID Pelanggan</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID Pesanan</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Jumlah Barang</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Tanggal Transaksi</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Bayar</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status Pembayaran</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status Pesanan</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">ID Transaksi</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">ID Produk</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">ID Pelanggan</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">ID Pesanan</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Jumlah Barang</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Tanggal Transaksi</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Total Bayar</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Status Pembayaran</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Status Pesanan</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">

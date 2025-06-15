@@ -20,7 +20,7 @@
         <h1 class="text-center text-2xl font-extrabold text-gray-900 mb-6 relative z-10 tracking-tight leading-tight">Buat Akun Baru</h1>
         @if ($errors->has('username'))
             <script>
-                alert("Username sudah terpakai. Silakan pilih username lain.");
+                alert("Username sudah terpakai. Silakan masukkan username lain.");
             </script>
         @endif
 
@@ -51,7 +51,7 @@
                     id="username" {{-- Pastikan ada ID ini --}}
                     name="username"
                     value="{{ old('username') }}"
-                    placeholder="Pilih username unik"
+                    placeholder="Masukkan username unik"
                     required
                 >
                 @error('username')
@@ -141,7 +141,7 @@
 
             {{-- Bagian Informasi Rekening --}}
             <div class="pt-4 mt-4 border-t border-gray-200">
-                <p class="text-base font-semibold text-gray-800 mb-3">Informasi Rekening (Opsional)</p>
+                <p class="text-base font-semibold text-gray-800 mb-3 text-center">Informasi Rekening</p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1" for="jenis_rekening">Jenis Rekening</label>
@@ -185,11 +185,19 @@
 
             <div class="text-center text-xs text-gray-600 mt-4">
                 Sudah punya akun?
-                <a href="{{ route('login') }}" class="font-medium text-blue-600 hover:text-purple-600 transition-colors duration-200">
+                <a href="javascript:void(0)" onclick="openLoginModal()" class="font-medium text-blue-600 hover:text-purple-600 transition-colors duration-200">
                     Masuk di sini
                 </a>
-            </div>
+            </div>  
         </form>
+    </div>
+    <div id="loginModal"
+    class="fixed inset-0 hidden z-[999] flex items-center justify-center px-4 bg-black bg-opacity-50">
+        <div class="p-6 bg-white w-full max-w-4xl rounded-3xl relative shadow-2xl overflow-hidden transform translate-y-10">
+            <button onclick="closeLoginModal()"
+                class="absolute top-4 right-4 text-gray-500 text-3xl z-10">&times;</button>
+            <div id="loginModalContent" class="relative z-0">Memuat...</div>
+        </div>
     </div>
 </div>
 
@@ -222,84 +230,138 @@
 
 {{-- Tambahkan script ini di bagian bawah blade file, sebelum </body> --}}
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const usernameInput = document.getElementById('username');
-        const usernameWarning = document.getElementById('username-warning');
-        let debounceTimeout; // Variabel untuk menyimpan timer debounce
-
-        // Fungsi untuk memeriksa username via AJAX
-        function checkUsernameAvailability(username) {
-            // Tampilkan pesan "Memeriksa..." sementara
-            usernameWarning.textContent = 'Memeriksa username...';
-            usernameWarning.classList.remove('hidden');
-
-            console.log('Sending AJAX for username:', username); // DEBUGGING: Log permintaan
-
-            fetch('{{ route("check.username") }}?username=' + encodeURIComponent(username)) // Kirim permintaan ke Laravel
-                .then(response => {
-                    console.log('Received raw response:', response); // DEBUGGING: Log respons mentah
-                    if (!response.ok) {
-                        // Jika respons bukan OK (misal 404, 500), tangani sebagai error
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Received JSON data:', data); // DEBUGGING: Log data JSON
-                    if (data.exists) {
-                        usernameWarning.textContent = 'Username ini sudah terdaftar.';
-                        usernameWarning.classList.remove('hidden'); // Pastikan terlihat
-                    } else {
-                        usernameWarning.textContent = ''; // Kosongkan pesan
-                        usernameWarning.classList.add('hidden'); // Sembunyikan div peringatan
-                    }
-                })
-                .catch(error => {
-                    console.error('Error checking username:', error); // DEBUGGING: Log error fetch
-                    usernameWarning.textContent = 'Terjadi kesalahan saat memeriksa username.';
-                    usernameWarning.classList.remove('hidden');
-                });
+document.addEventListener('DOMContentLoaded', function () {
+    // ===== MODAL LOGIN FUNCTIONS =====
+    window.openLoginModal = function() {
+        const modal = document.getElementById('loginModal');
+        const content = document.getElementById('loginModalContent');
+        
+        if (!modal || !content) {
+            console.error('Modal login tidak ditemukan di halaman ini');
+            return;
         }
 
-        // Event listener saat user mengetik di kolom username
+        modal.classList.remove('hidden');
+        content.innerHTML = 'Memuat...';
+
+        fetch('/login')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const loginWrapper = doc.querySelector('[data-login-content]');
+
+                if (loginWrapper) {
+                    content.innerHTML = '';
+                    content.appendChild(loginWrapper.cloneNode(true));
+                } else {
+                    content.innerHTML = '<p class="text-red-500">Konten login tidak ditemukan.</p>';
+                }
+            })
+            .catch(() => {
+                content.innerHTML = '<p class="text-red-500">Gagal memuat form login.</p>';
+            });
+    };
+
+    window.closeLoginModal = function() {
+        const modal = document.getElementById('loginModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    };
+
+    // ===== USERNAME VALIDATION =====
+    const usernameInput = document.getElementById('username');
+    const usernameWarning = document.getElementById('username-warning');
+
+    if (!usernameWarning) {
+        console.error('Elemen #username-warning tidak ditemukan!');
+        return;
+    }
+    
+    usernameWarning.classList.add('hidden');
+
+    let debounceTimeout;
+    const MIN_USERNAME_LENGTH = 5;
+
+    function displayWarning(message, isError = true) {
+        usernameWarning.textContent = message;
+        usernameWarning.classList.remove('hidden');
+        if (isError) {
+            usernameWarning.classList.remove('text-green-600');
+            usernameWarning.classList.add('text-red-600');
+        } else {
+            usernameWarning.classList.remove('text-red-600');
+            usernameWarning.classList.add('text-gray-600');
+        }
+    }
+
+    function hideWarning() {
+        usernameWarning.textContent = '';
+        usernameWarning.classList.add('hidden');
+    }
+
+    function checkUsernameAvailability(username) {
+        displayWarning('Memeriksa username...', false);
+
+        // Ganti dengan route yang benar sesuai dengan aplikasi Anda
+        fetch(`/check-username?username=${encodeURIComponent(username)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.exists) {
+                    displayWarning('Username ini sudah terdaftar.');
+                } else {
+                    hideWarning();
+                }
+            })
+            .catch(error => {
+                console.error('Error checking username:', error);
+                displayWarning('Terjadi kesalahan saat memeriksa username.');
+            });
+    }
+
+    if (usernameInput) {
         usernameInput.addEventListener('input', function () {
-            clearTimeout(debounceTimeout); // Hapus timer sebelumnya
-            const username = this.value;
+            clearTimeout(debounceTimeout);
+            const username = this.value.trim();
 
-            console.log('Input event fired. Current username:', username); // DEBUGGING: Log input
-
-            if (username.length < 3) { // Hanya cek jika panjang username minimal 3 karakter
-                usernameWarning.textContent = '';
-                usernameWarning.classList.add('hidden');
-                console.log('Username too short, no check initiated.'); // DEBUGGING
+            if (username.length === 0) {
+                hideWarning();
                 return;
             }
 
-            // Atur debounce: cek setelah user berhenti mengetik selama 500ms
+            if (username.length < MIN_USERNAME_LENGTH) {
+                displayWarning(`Username minimal ${MIN_USERNAME_LENGTH} karakter.`);
+                return;
+            }
+
             debounceTimeout = setTimeout(() => {
-                console.log('Debounce finished, initiating check for:', username); // DEBUGGING
                 checkUsernameAvailability(username);
             }, 500);
         });
 
-        // Event listener saat user meninggalkan kolom username (blur)
         usernameInput.addEventListener('blur', function() {
-            clearTimeout(debounceTimeout); // Pastikan tidak ada permintaan debounce yang tertunda
-            const username = this.value;
+            clearTimeout(debounceTimeout);
+            const username = this.value.trim();
 
-            console.log('Blur event fired. Current username:', username); // DEBUGGING: Log blur
+            if (username.length === 0) {
+                hideWarning();
+                return;
+            }
 
-            if (username.length > 0 && username.length < 3) { // Pesan jika terlalu pendek saat blur
-                 usernameWarning.textContent = 'Username minimal 3 karakter.';
-                 usernameWarning.classList.remove('hidden');
-            } else if (username.length >= 3) {
-                console.log('Blur check initiating for:', username); // DEBUGGING
+            if (username.length < MIN_USERNAME_LENGTH) {
+                displayWarning(`Username minimal ${MIN_USERNAME_LENGTH} karakter.`);
+            } else {
                 checkUsernameAvailability(username);
-            } else { // Jika kolom kosong saat blur
-                 usernameWarning.textContent = '';
-                 usernameWarning.classList.add('hidden');
-                 console.log('Username empty on blur, warning hidden.'); // DEBUGGING
             }
         });
-    });
+    }
+});
+
+    
 </script>

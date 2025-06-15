@@ -15,7 +15,7 @@ class ProfilController extends Controller
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
 
-     
+
     public function showProfile()
     {
         if (!Auth::check()) {
@@ -70,19 +70,54 @@ class ProfilController extends Controller
         $user = Auth::user();
 
         // Validasi input dari form
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
             'telepon' => 'nullable|string|max:20',
+            'email' => 'nullable|email|max:255|unique:users,email,' . $user->id,
             'alamat' => 'nullable|string|max:255',
             'jenis_rekening' => 'nullable|string|max:50',
             'no_rekening' => 'nullable|string|max:50',
-        ]);
+        ];
 
-        // Perbarui data pengguna
+        // LOGIKA PENTING UNTUK PASSWORD:
+        // Jika pengguna mengisi field password baru ATAU password lama,
+        // maka terapkan validasi khusus untuk password.
+        if ($request->filled('password') || $request->filled('current_password')) {
+            $rules['current_password'] = [
+                'required', // Password lama wajib diisi
+                function ($attribute, $value, $fail) use ($user) {
+                    // Gunakan nama lengkap (fully qualified name) untuk Hash::check()
+                    // Ini adalah cara paling robust untuk memastikan Hash dikenali dalam closure
+                    if (!\Illuminate\Support\Facades\Hash::check($value, $user->password)) {
+                        $fail('Password lama yang Anda masukkan tidak cocok.');
+                    }
+                },
+            ];
+            $rules['password'] = 'required|string|min:8|confirmed';
+            $rules['password_confirmation'] = 'required|string|min:8';
+        }
+
+        // --- PENTING: BARIS INI HARUS AKTIF DAN TIDAK DIKOMENTARI ---
+        // Lakukan validasi semua input berdasarkan aturan yang telah ditetapkan.
+        // Jika ada validasi yang gagal (termasuk password lama tidak cocok),
+        // Laravel akan otomatis menghentikan eksekusi dan me-redirect kembali
+        // ke form dengan pesan error.
+        $request->validate($rules);
+
+        // Perbarui data profil pengguna
         $user->name = $request->name;
         $user->username = $request->username;
         $user->telepon = $request->telepon;
+        $user->email = $request->email;
+
+        // Jika field 'password' (password baru) diisi, maka update password pengguna.
+        // Bagian ini HANYA akan dijalankan jika SEMUA validasi sebelumnya,
+        // termasuk validasi 'current_password' (password lama), telah berhasil.
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password); // Hash password baru sebelum disimpan
+        }
+        // Perbarui alamat, jenis rekening, dan nomor rekening jika ada
         $user->alamat = $request->alamat;
         $user->jenis_rekening = $request->jenis_rekening;
         $user->no_rekening = $request->no_rekening;

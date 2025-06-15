@@ -32,7 +32,7 @@
         {{-- TAMPILAN FORM EDIT USER --}}
         {{-- Main container for the form with a clean, bright background and subtle shadow --}}
         {{-- Using a very light background with a subtle gradient and increased shadow depth --}}
-        <div class="bg-gradient-to-r from-blue-100 via-teal-100 to-purple-100 p-8 rounded-2xl shadow-2xl max-w-3xl mx-auto">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-3xl mx-auto">
 
             {{-- Title of the form --}}
             <h1 class="text-center text-3xl font-extrabold text-gray-800 mb-8 drop-shadow-sm">Edit Pengguna</h1>
@@ -104,7 +104,7 @@
                 </div>
 
                 {{-- Action Buttons --}}
-                <div class="flex justify-end space-x-4 mt-8">
+                <div class="flex justify-center space-x-4 mt-8">
                     {{-- Submit Button for saving changes --}}
                     <button type="submit" class="inline-flex justify-center py-3 px-6 border border-transparent shadow-xl text-lg font-bold rounded-xl text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
                         Simpan Perubahan

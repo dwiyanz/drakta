@@ -12,8 +12,8 @@
 </section>
 
 <!-- Feature Section -->
-< <section class="p-8 mb-12 text-center bg-white rounded-xl shadow-xl border border-gray-100">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Mengapa Memilih Kami?</h2>
+<section class="p-8 mb-12 text-center bg-white rounded-xl shadow-xl border border-gray-100">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Layanan Yang Kami Berikan</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="flex flex-col items-center space-y-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 border border-gray-100">
             <div class="bg-teal-100 p-4 rounded-full">
@@ -26,7 +26,7 @@
             <div class="bg-teal-100 p-4 rounded-full">
                 <i class="fas fa-shipping-fast text-teal-600 text-4xl"></i>
             </div>
-            <h3 class="text-xl font-semibold text-gray-800">Pengiriman Cepat</h3>
+            <h3 class="text-xl font-semibold text-gray-800">Pengerjaan Cepat</h3>
             <span class="text-gray-600">{{ optional($beranda)->sec2_text2 }}</span>
         </div>
         <div class="flex flex-col items-center space-y-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 border border-gray-100">
@@ -92,7 +92,63 @@
     </section>
 
     <!-- Footer Section -->
-    <h2 class="text-4xl font-bold mt-8 mb-6 text-center text-gray-800">{{ optional($beranda)->sec3_judul }}</h2>
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 font-inter">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-4xl lg:text-5xl font-extrabold text-center text-gray-900 mb-12 animate-fade-in-down">
+            {{ optional($beranda)->sec3_judul }}
+        </h2>
+
+        {{-- Perubahan utama di sini: gradien warna dan efek hover --}}
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-2xl text-gray-800 transition-all duration-500 hover:shadow-gray-300/50">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+                {{-- Kolom Fitur / Poin Utama --}}
+                <div class="flex flex-col justify-center space-y-8">
+                    {{-- Item Fitur 1 --}}
+                    <div class="flex items-start space-x-5 transform transition-transform duration-300 hover:scale-105 hover:bg-purple-100 p-4 rounded-xl">
+                        <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-4 rounded-full shadow-lg flex-shrink-0">
+                            {{-- Pastikan Font Awesome dimuat di layout utama --}}
+                            <i class="fas fa-print text-white text-3xl"></i>
+                        </div>
+                        <p class="text-lg md:text-xl leading-relaxed font-normal">{{ optional($beranda)->sec3_text1 }}</p>
+                    </div>
+
+                    {{-- Item Fitur 2 --}}
+                    <div class="flex items-start space-x-5 transform transition-transform duration-300 hover:scale-105 hover:bg-purple-100 p-4 rounded-xl">
+                        <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-4 rounded-full shadow-lg flex-shrink-0">
+                            <i class="fas fa-clock text-white text-3xl"></i>
+                        </div>
+                        <p class="text-lg md:text-xl leading-relaxed font-normal">{{ optional($beranda)->sec3_text2 }}</p>
+                    </div>
+
+                    {{-- Item Fitur 3 --}}
+                    <div class="flex items-start space-x-5 transform transition-transform duration-300 hover:scale-105 hover:bg-purple-100 p-4 rounded-xl">
+                        <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-4 rounded-full shadow-lg flex-shrink-0">
+                            <i class="fas fa-paint-brush text-white text-3xl"></i>
+                        </div>
+                        <p class="text-lg md:text-xl leading-relaxed font-normal">{{ optional($beranda)->sec3_text3 }}</p>
+                    </div>
+                </div>
+
+                {{-- Kolom Peta Lokasi --}}
+                <div class="flex flex-col items-center text-center">
+                    <h3 class="font-extrabold text-3xl mb-6 text-gray-800 tracking-wide">LOKASI INDUSTRI</h3>
+                    <iframe
+                        src="{{ optional($beranda)->sec3_map }}"
+                        width="100%"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        class="rounded-2xl shadow-2xl border-4 border-gray-200 transform transition-transform duration-300 hover:scale-[1.02] aspect-video"
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- <h2 class="text-4xl font-bold mt-8 mb-6 text-center text-gray-800">{{ optional($beranda)->sec3_judul }}</h2>
     <section class="p-10 mb-8 bg-teal-600 rounded-xl text-white shadow-xl">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div class="flex flex-col justify-center space-y-8 text-xl">
@@ -120,7 +176,7 @@
                 <iframe src="{{ optional($beranda)->sec3_map }}" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="rounded-xl shadow-lg"></iframe>
             </div>
         </div>
-    </section>
+    </section> -->
     @endsection
 
 
@@ -135,6 +191,38 @@
             
             // Redirect ke halaman product dengan parameter highlight
             window.location.href = "{{ url('/product') }}?highlight=" + productId;
+        }
+
+        function openLoginModal() {
+            const modal = document.getElementById('loginModal');
+            const content = document.getElementById('loginModalContent');
+
+            modal.classList.remove('hidden');
+            content.innerHTML = 'Loading...';
+
+            fetch('/login')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+
+                    // Ambil container lengkap yang mencakup gambar dan form
+                    const loginWrapper = doc.querySelector('[data-login-content]');
+
+                    if (loginWrapper) {
+                        content.innerHTML = '';
+                        content.appendChild(loginWrapper.cloneNode(true));
+                    } else {
+                        content.innerHTML = '<p class="text-red-500">Konten login tidak ditemukan.</p>';
+                    }
+                })
+                .catch(() => {
+                    content.innerHTML = '<p class="text-red-500">Gagal memuat form login.</p>';
+                });
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
         }
     </script>
     @endsection

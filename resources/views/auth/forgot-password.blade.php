@@ -57,5 +57,56 @@
             </a>
         </div>
     </div>
+    <div id="loginModal"
+    class="fixed inset-0 hidden z-[999] flex items-center justify-center px-4 bg-black bg-opacity-50">
+        <div class="p-6 bg-white w-full max-w-4xl rounded-3xl relative shadow-2xl overflow-hidden transform translate-y-10">
+            <button onclick="closeLoginModal()"
+                class="absolute top-4 right-4 text-gray-500 text-3xl z-10">&times;</button>
+            <div id="loginModalContent" class="relative z-0">Memuat...</div>
+        </div>
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // ===== MODAL LOGIN FUNCTIONS =====
+    window.openLoginModal = function() {
+        const modal = document.getElementById('loginModal');
+        const content = document.getElementById('loginModalContent');
+        
+        if (!modal || !content) {
+            console.error('Modal login tidak ditemukan di halaman ini');
+            return;
+        }
+
+        modal.classList.remove('hidden');
+        content.innerHTML = 'Memuat...';
+
+        fetch('/login')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const loginWrapper = doc.querySelector('[data-login-content]');
+
+                if (loginWrapper) {
+                    content.innerHTML = '';
+                    content.appendChild(loginWrapper.cloneNode(true));
+                } else {
+                    content.innerHTML = '<p class="text-red-500">Konten login tidak ditemukan.</p>';
+                }
+            })
+            .catch(() => {
+                content.innerHTML = '<p class="text-red-500">Gagal memuat form login.</p>';
+            });
+    };
+
+    window.closeLoginModal = function() {
+        const modal = document.getElementById('loginModal');
+        if (modal) {
+            modal.classList.add('hidden');
+        }
+    };
+});
+</script>
 @endsection

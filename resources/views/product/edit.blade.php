@@ -4,7 +4,7 @@
 
 {{-- Main container for the form with a clean, bright background and subtle shadow --}}
 {{-- Using a very light background with a subtle gradient and increased shadow depth --}}
-<div class="container mx-auto px-8 py-10 bg-gradient-to-r from-blue-100 via-teal-100 to-purple-100 p-8 rounded-2xl shadow-2xl mt-8 mb-8 max-w-3xl"> {{-- Light green to teal gradient background, larger rounded corners, deeper shadow, max width --}}
+<div class="container mx-auto px-8 py-10 bg-white p-8 rounded-2xl shadow-2xl mt-8 mb-8 max-w-3xl"> {{-- Light green to teal gradient background, larger rounded corners, deeper shadow, max width --}}
 
     {{-- Title of the form --}}
     {{-- Styled for prominence and better visual hierarchy with a vibrant green color --}}

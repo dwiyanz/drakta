@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto mt-8 p-8 bg-white rounded-xl shadow-2xl">
-    <h1 class="text-center text-3xl font-extrabold text-gray-800 mb-8 drop-shadow-sm">DATA PEMESANAN</h1>
+    <h1 class="text-center text-3xl font-extrabold text-gray-800 mb-8 drop-shadow-sm border-b border-gray-200">DATA PEMESANAN</h1>
 
     {{-- Success/Error Messages --}}
     <div id="flash-messages" class="mb-4">
@@ -53,7 +53,7 @@
         <div class="overflow-x-auto shadow-lg rounded-lg">
             <table class="min-w-full bg-white border-collapse">
                 <thead>
-                    <tr class="bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
+                    <tr class="bg-green-200 text-gray-700 uppercase text-sm leading-normal">
                         <th class="py-3 px-6 text-left border-b">ID Transaksi</th>
                         <th class="py-3 px-6 text-left border-b">ID Pelanggan</th>
                         <th class="py-3 px-6 text-left border-b">ID Produk</th>

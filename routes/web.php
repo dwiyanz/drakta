@@ -36,6 +36,7 @@ Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkReques
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+Route::get('/check-username', [RegisterController::class, 'checkUsername'])->name('check.username');
 
 // Route untuk Produk
 Route::get('/product', [ProductController::class, 'index'])->name('products.index'); // Route utama untuk list produk
@@ -78,6 +79,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/orders/{id}/request-cancellation', [\App\Http\Controllers\OrderController::class, 'requestCancellation'])
     ->middleware('auth')
     ->name('orders.request-cancellation');
+    Route::post('/transaction/saldo', [TransactionController::class, 'payWithSaldo'])->name('transaction.saldo');
+
 
 });
 
@@ -102,7 +105,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/transaction/search', [TransactionController::class, 'search'])->name('transaction.search.admin');
 
     //CRUD PRODUK
-    Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
+    Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
     Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::post('/product/store', [ProductController::class, 'store'])->name('product.store');
     Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');

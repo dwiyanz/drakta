@@ -10,7 +10,7 @@
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                 </div>
                 <div>
-                    <p class="text-sm text-gray-300">Hello 👋</p>
+                    <p class="text-sm text-gray-300">👋 Hello</p>
                     <h2 class="text-2xl font-semibold text-white">{{ Auth::user()->name }}</h2>
                 </div>
             </div>
@@ -39,7 +39,7 @@
 
 <!-- Form Edit Profil (Toggle) -->
 <div id="editSection" class="hidden mt-6 bg-gray-100 p-6 rounded-lg shadow-md">
-    <h1 class="text-xl font-bold mb-4 text-gray-800">Edit Profil</h1>
+    <h1 class="text-xl font-bold mb-4 text-gray-800">Data Diri</h1>
     <div class="grid md:grid-cols-2 gap-4">
         <div>
             <label class="block text-sm font-semibold text-gray-700">Nama Lengkap</label>
